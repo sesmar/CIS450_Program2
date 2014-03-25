@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
 #include "Job.h"
 #include "AdmissionScheduler.h"
 
@@ -12,7 +13,7 @@ int main(int argc, char **argv)
 {
 	int memoryAlgorithm = 0;
 	char* inputFile;
-	AdmissionScheduler adminScheduler();
+	AdmissionScheduler adminScheduler;
 
 	if (argc < 3)
 	{
