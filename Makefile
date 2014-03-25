@@ -4,8 +4,8 @@ CC=g++
 
 all: simulation
 
-simulation: simulation.o
-	$(CC) $(LDFLAGS) -o simulation simulation.o
+simulation: simulation.o Job.o
+	$(CC) $(LDFLAGS) -o simulation Job.o simulation.o
 
 .c.o:
 	$(CC) $(CFLAGS) -c $*.c
