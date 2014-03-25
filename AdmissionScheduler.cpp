@@ -13,3 +13,8 @@ vector<Job> AdmissionScheduler::checkJobsForAdmission(int clockTime)
 	
 	return jobs;
 }
+
+int AdmissionScheduler::queueSize()
+{
+	return _jobQueue.size();
+}

@@ -29,11 +29,14 @@ int main(int argc, char **argv)
 
 	int a, b, c, d;
 
+	cout << "Loading jobs from: " << inputFile << endl;
+
 	while (infile >> a >> b >> c >> d)
 	{
 		Job job(a, b, c, d);
 		adminScheduler.addJob(job);
 	}
 
+	cout << adminScheduler.queueSize() << " jobs loaded." << endl;
 	cout << "Running main simulation loop" << endl;
 }
