@@ -1,8 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
+#include <vector>
 #include "Job.h"
 #include "AdmissionScheduler.h"
+#include "CPUScheduler.h"
 
 using namespace std;
 
@@ -14,6 +16,7 @@ int main(int argc, char **argv)
 	int memoryAlgorithm = 0;
 	char* inputFile;
 	AdmissionScheduler adminScheduler;
+	CPUScheduler *cpu = new CPUScheduler();
 
 	if (argc < 3)
 	{
@@ -27,16 +30,38 @@ int main(int argc, char **argv)
 
 	ifstream infile(inputFile);
 
-	int a, b, c, d;
+	int pId;
+	int arrivalTime;
+	int serviceTime;
+	int dataSize;
 
 	cout << "Loading jobs from: " << inputFile << endl;
 
-	while (infile >> a >> b >> c >> d)
+	while (infile >> pId >> arrivalTime >> serviceTime >> dataSize)
 	{
-		Job job(a, b, c, d);
+		Job job(pId, arrivalTime, serviceTime, dataSize);
 		adminScheduler.addJob(job);
 	}
 
 	cout << adminScheduler.queueSize() << " jobs loaded." << endl;
-	cout << "Running main simulation loop" << endl;
+	
+	cout << "Running main program loopi." << endl;
+
+	while (adminScheduler.queueSize() > 0)
+	{
+		cout << "Clock Time: " << cpu->getCurrentClock() << " ";
+
+		vector<Job> readyForWaiting = adminScheduler.checkJobsForAdmission(
+				cpu->getCurrentClock()
+				);
+	
+		for(int i = 0; i < readyForWaiting.size(); i++)
+		{
+			cout << "Process: " << readyForWaiting[i].getProcessId() << " arrived";
+		}
+
+		cpu->incrementClock();
+
+		cout << endl;
+	}
 }

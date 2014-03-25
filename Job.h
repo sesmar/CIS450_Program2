@@ -20,10 +20,10 @@ class Job
 
 	public:
 		Job(
+				int pId,
 				int arrivalTime, 
-				int dataSize, 
-				int pId, 
-				int serviceTime
+				int serviceTime,
+				int dataSize
 			);
 
 		int getArrivalTime();

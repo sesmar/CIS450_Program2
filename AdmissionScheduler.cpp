@@ -9,7 +9,14 @@ vector<Job> AdmissionScheduler::checkJobsForAdmission(int clockTime)
 {
 	vector<Job> jobs;
 
+	Job job = _jobQueue.front();
 
+	while (job.getArrivalTime() == clockTime)
+	{
+		jobs.push_back(job);
+		_jobQueue.pop();
+		job = _jobQueue.front();
+	}
 	
 	return jobs;
 }

@@ -1,6 +1,6 @@
 #include "Job.h"
 
-Job::Job(int arrivalTime, int dataSize, int pId, int serviceTime)
+Job::Job(int pId, int arrivalTime, int serviceTime, int dataSize)
 {
 	_arrivalTime = arrivalTime;
 	_dataSize = dataSize;
