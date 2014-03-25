@@ -6,5 +6,5 @@ Christopher Sims
 
 Source Files:
 simulation.cpp		//Main program file.
-
-
+Job.h				//Header file for the job class
+Job.cpp				//Implementation for job class
