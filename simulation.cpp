@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <vector>
 #include "Job.h"
+#include "Stats.h"
 #include "AdmissionScheduler.h"
 #include "CPUScheduler.h"
 
@@ -17,6 +18,7 @@ int main(int argc, char **argv)
 	char* inputFile;
 	AdmissionScheduler adminScheduler;
 	CPUScheduler *cpu = new CPUScheduler();
+	Stats stats;
 
 	if (argc < 3)
 	{
@@ -49,12 +51,15 @@ int main(int argc, char **argv)
 
 	while (adminScheduler.queueSize() > 0)
 	{
-		cout << "Clock Time: " << cpu->getCurrentClock() << " ";
-
 		vector<Job> readyForWaiting = adminScheduler.checkJobsForAdmission(
 				cpu->getCurrentClock()
 				);
-	
+
+		stats.ProcessStates(readyForWaiting);
+
+		cout << "Clock Time: " << cpu->getCurrentClock() << " ";
+
+
 		for(int i = 0; i < readyForWaiting.size(); i++)
 		{
 			cout << "Process: " << readyForWaiting[i].getProcessId() << " arrived";
