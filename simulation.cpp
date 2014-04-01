@@ -6,6 +6,8 @@
 #include "Stats.h"
 #include "AdmissionScheduler.h"
 #include "CPUScheduler.h"
+#include "MemoryScheduler.h"
+#include "JobList.h"
 
 using namespace std;
 
@@ -18,6 +20,7 @@ int main(int argc, char **argv)
 	char* inputFile;
 	AdmissionScheduler adminScheduler;
 	CPUScheduler *cpu = new CPUScheduler();
+	MemoryScheduler memScheduler;
 	Stats stats;
 
 	if (argc < 3)
@@ -42,6 +45,7 @@ int main(int argc, char **argv)
 	while (infile >> pId >> arrivalTime >> serviceTime >> dataSize)
 	{
 		Job job(pId, arrivalTime, serviceTime, dataSize);
+		JobList::addJob(job);
 		adminScheduler.addJob(job);
 	}
 
@@ -55,8 +59,6 @@ int main(int argc, char **argv)
 				cpu->getCurrentClock()
 				);
 
-		stats.ProcessStates(readyForWaiting);
-
 		cout << "Clock Time: " << cpu->getCurrentClock() << " ";
 
 
@@ -69,4 +71,6 @@ int main(int argc, char **argv)
 
 		cout << endl;
 	}
+
+	stats.ProcessStates(JobList::getJobs());
 }
