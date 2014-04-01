@@ -31,6 +31,7 @@ class Job
 		const char *getCurrentState();
 		int getDataSize();
 		int getProcessId();
+		char getMappedProcessId();
 		int getWaitingTime();
 		int getReadyTime();
 		int getRunningTime();

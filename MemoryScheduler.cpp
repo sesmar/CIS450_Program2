@@ -1,16 +1,23 @@
 #include "MemoryScheduler.h"
 
+MemoryScheduler::MemoryScheduler()
+{
+	for(int x = 0; x < 256; x++)
+	{
+		_memory.push_back('_');
+	}
+}
 
 //function definitions
-void MemoryScheduler::FirstFit(vector<char> &memory, char ProcessID, int memNeeded)
+void MemoryScheduler::FirstFit(char ProcessID, int memNeeded)
 {
 	int startPos=0;
 	int holeCount=0;
 	bool flag=false;
 
-	for(int i=0; i<256; i++)
+	for(int i=0; i<_memory.size(); i++)
 	{
-		if(flag==false && memory[i]=='_')    //store position  
+		if(flag==false && _memory[i]=='_')    //store position  
 		{
 			startPos=i;
 			flag=true;
@@ -19,7 +26,7 @@ void MemoryScheduler::FirstFit(vector<char> &memory, char ProcessID, int memNeed
 		if(flag==true)
 		{
 				
-				if(memory[i]=='_')
+				if(_memory[i]=='_')
 				{
 					holeCount++;
 
@@ -28,8 +35,7 @@ void MemoryScheduler::FirstFit(vector<char> &memory, char ProcessID, int memNeed
 						{
 							for(int j=startPos; j<startPos+memNeeded; j++)
 							{
-								memory[j]=ProcessID;
-
+								_memory[j]=ProcessID;
 							}
 
 							return;
@@ -48,7 +54,7 @@ void MemoryScheduler::FirstFit(vector<char> &memory, char ProcessID, int memNeed
 }
 
 
-void MemoryScheduler::WorstFit(vector<char> &memory, char ProcessID, int memNeeded)
+void MemoryScheduler::WorstFit(char ProcessID, int memNeeded)
 {
 	int holeCount=0;
 	bool flag=false;
@@ -57,9 +63,9 @@ void MemoryScheduler::WorstFit(vector<char> &memory, char ProcessID, int memNeed
 	int currentHoleCount=0;
 	int nextPos=0;
 
-	for(int i=0; i<256; i++)
+	for(int i=0; i<_memory.size(); i++)
 	{
-		if(flag==false && memory[i]=='_')    //store position  
+		if(flag==false && _memory[i]=='_')    //store position  
 		{
 			nextPos=i;
 			flag=true;
@@ -68,14 +74,16 @@ void MemoryScheduler::WorstFit(vector<char> &memory, char ProcessID, int memNeed
 		if(flag==true)
 		{
 			
-				if(memory[i]=='_' && i!=255)
+				if(_memory[i]=='_' && i!= (_memory.size()-1))
 				{
 					holeCount++;
 				}
 				else
 				{   
-					if(memory[i]=='_')
-					{holeCount++;}
+					if(_memory[i]=='_')
+					{
+						holeCount++;
+					}
 					
 					//compare new hole with previously stored hole
 					if(holeCount>currentHoleCount)
@@ -94,13 +102,13 @@ void MemoryScheduler::WorstFit(vector<char> &memory, char ProcessID, int memNeed
 	//store data into the largest hole
 	for(int j=currentPos; j<currentPos+memNeeded; j++)
 	{
-		memory[j]=ProcessID;
+		_memory[j]=ProcessID;
 	}
 
 	return;
 }
 
-void MemoryScheduler::BestFit(vector<char> &memory, char ProcessID, int memNeeded)
+void MemoryScheduler::BestFit(char ProcessID, int memNeeded)
 {
 	int holeCount=0;
 	bool flag=false;
@@ -109,9 +117,9 @@ void MemoryScheduler::BestFit(vector<char> &memory, char ProcessID, int memNeede
 	int currentHoleCount=999;
 	int nextPos=0;
 
-	for(int i=0; i<256; i++)
+	for(int i=0; i<_memory.size(); i++)
 	{
-		if(flag==false && memory[i]=='_')    //store position  
+		if(flag==false && _memory[i]=='_')    //store position  
 		{
 			nextPos=i;
 			flag=true;
@@ -120,14 +128,16 @@ void MemoryScheduler::BestFit(vector<char> &memory, char ProcessID, int memNeede
 		if(flag==true)
 		{
 			
-				if(memory[i]=='_' && i!=255)
+				if(_memory[i]=='_' && i!= (_memory.size()-1))
 				{
 					holeCount++;
 				}
 				else
 				{   
-					if(memory[i]=='_')
-					{holeCount++;}
+					if(_memory[i]=='_')
+					{
+						holeCount++;
+					}
 					//compare new hole with previously stored hole
 					if(holeCount<currentHoleCount && holeCount>=memNeeded)
 					{
@@ -145,19 +155,24 @@ void MemoryScheduler::BestFit(vector<char> &memory, char ProcessID, int memNeede
 	//store data into the largest hole
 	for(int j=currentPos; j<currentPos+memNeeded; j++)
 	{
-		memory[j]=ProcessID;
+		_memory[j]=ProcessID;
 	}
 
 }
 
-void MemoryScheduler::ReleaseMemory(vector<char> &memory, char ProcessID)
+void MemoryScheduler::ReleaseMemory(char ProcessID)
 {
-	for(int i=0; i<256; i++)
+	for(int i=0; i<_memory.size(); i++)
 	{
-		if(memory[i]==ProcessID)
+		if(_memory[i]==ProcessID)
 		{
-			memory[i]='_';     //return memory to the system
+			_memory[i]='_';     //return memory to the system
 		}
 	}
 
+}
+
+vector<char> MemoryScheduler::getMemory()
+{
+	return _memory;
 }

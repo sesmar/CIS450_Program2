@@ -14,11 +14,13 @@ class MemoryScheduler
 		vector<char> _memory;   //vector <char> memory (256,'_');     <<must be intialized to size 256 with '_' characters
 
 	public:
-			//function declarations
-			void FirstFit(vector<char> &memory, char ProcessID, int memNeeded);
-			void WorstFit(vector<char> &memory, char ProcessID, int memNeeded);
-			void BestFit(vector<char> &memory, char ProcessID, int memNeeded);
-			void ReleaseMemory(vector<char> &memory, char ProcessID);
+		MemoryScheduler();
+		//function declarations
+		void FirstFit(char ProcessID, int memNeeded);
+		void WorstFit(char ProcessID, int memNeeded);
+		void BestFit(char ProcessID, int memNeeded);
+		void ReleaseMemory(char ProcessID);
+		vector<char> getMemory();
 };
 
 

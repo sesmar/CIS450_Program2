@@ -42,11 +42,15 @@ int main(int argc, char **argv)
 
 	cout << "Loading jobs from: " << inputFile << endl;
 
+	int jobIndex = 0;
+
 	while (infile >> pId >> arrivalTime >> serviceTime >> dataSize)
 	{
+
 		Job job(pId, arrivalTime, serviceTime, dataSize);
 		JobList::addJob(job);
-		adminScheduler.addJob(job);
+		adminScheduler.addJob(jobIndex);
+		jobIndex++;
 	}
 
 	cout << adminScheduler.queueSize() << " jobs loaded." << endl;
@@ -56,6 +60,7 @@ int main(int argc, char **argv)
 	while (adminScheduler.queueSize() > 0)
 	{
 		vector<Job> readyForWaiting = adminScheduler.checkJobsForAdmission(
+				JobList::getJobs(),
 				cpu->getCurrentClock()
 				);
 
@@ -64,12 +69,17 @@ int main(int argc, char **argv)
 
 		for(int i = 0; i < readyForWaiting.size(); i++)
 		{
-			cout << "Process: " << readyForWaiting[i].getProcessId() << " arrived";
+			Job job = readyForWaiting[i];
+
+			cout << "Process: " << job.getProcessId() << " arrived";
+			memScheduler.FirstFit(job.getMappedProcessId(), job.getDataSize());
 		}
 
 		cpu->incrementClock();
 
 		cout << endl;
+
+		stats.MemMap(memScheduler.getMemory());
 	}
 
 	stats.ProcessStates(JobList::getJobs());

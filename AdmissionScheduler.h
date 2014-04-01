@@ -10,11 +10,11 @@ using namespace std;
 class AdmissionScheduler
 {
 	private:
-		queue<Job> _jobQueue;
+		queue<int> _jobQueue;
 
 	public:
-		void addJob(Job job);
-		vector<Job> checkJobsForAdmission(int clockTime);
+		void addJob(int jobIndex);
+		vector<Job> checkJobsForAdmission(vector<Job> jobList, int clockTime);
 		int queueSize();
 };
 

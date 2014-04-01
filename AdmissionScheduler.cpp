@@ -1,21 +1,21 @@
 #include "AdmissionScheduler.h"
 
-void AdmissionScheduler::addJob(Job job)
+void AdmissionScheduler::addJob(int jobIndex)
 {
-	_jobQueue.push(job);
+	_jobQueue.push(jobIndex);
 }
 
-vector<Job> AdmissionScheduler::checkJobsForAdmission(int clockTime)
+vector<Job> AdmissionScheduler::checkJobsForAdmission(vector<Job> jobList, int clockTime)
 {
 	vector<Job> jobs;
 
-	Job job = _jobQueue.front();
+	Job job = jobList[_jobQueue.front()];
 
 	while (job.getArrivalTime() == clockTime)
 	{
 		jobs.push_back(job);
 		_jobQueue.pop();
-		job = _jobQueue.front();
+		job = jobList[_jobQueue.front()];
 	}
 	
 	return jobs;
