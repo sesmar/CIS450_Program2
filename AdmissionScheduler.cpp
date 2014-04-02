@@ -11,11 +11,15 @@ vector<Job> AdmissionScheduler::checkJobsForAdmission(vector<Job> jobList, int c
 
 	Job job = jobList[_jobQueue.front()];
 
-	while (job.getArrivalTime() == clockTime)
+	while (_jobQueue.size() > 0 && job.getArrivalTime() == clockTime)
 	{
 		jobs.push_back(job);
 		_jobQueue.pop();
-		job = jobList[_jobQueue.front()];
+
+		if (_jobQueue.size() > 0)
+		{
+			job = jobList[_jobQueue.front()];
+		}
 	}
 	
 	return jobs;

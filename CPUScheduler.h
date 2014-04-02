@@ -14,7 +14,7 @@ class CPUScheduler
 	public:
 		CPUScheduler() { _clock = 0; }
 		int getCurrentClock();
-		int incrementClock();
+		void incrementClock();
 		void addToReadyQueue(Job job);
 };
 

@@ -2,6 +2,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <vector>
+#include <conio.h>
 #include "Job.h"
 #include "Stats.h"
 #include "AdmissionScheduler.h"
@@ -59,9 +60,11 @@ int main(int argc, char **argv)
 
 	while (adminScheduler.queueSize() > 0)
 	{
+		int clockTime = cpu->getCurrentClock();
+
 		vector<Job> readyForWaiting = adminScheduler.checkJobsForAdmission(
 				JobList::getJobs(),
-				cpu->getCurrentClock()
+				clockTime
 				);
 
 		cout << "Clock Time: " << cpu->getCurrentClock() << " ";
@@ -83,4 +86,7 @@ int main(int argc, char **argv)
 	}
 
 	stats.ProcessStates(JobList::getJobs());
+
+	cout << "Press any key to continue!" << endl;
+	_getch();
 }

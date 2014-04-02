@@ -2,3 +2,9 @@
 *~
 *.swp
 simulation
+Debug/*
+CIS450_Program2/Debug/*
+*.sdf
+*.opensdf
+*.suo
+*.user
