@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 	char* inputFile;
 	AdmissionScheduler adminScheduler;
 	CPUScheduler *cpu = new CPUScheduler();
-	MemoryScheduler memScheduler;
+	MemoryScheduler *memScheduler = NULL;
 	Stats stats;
 
 	if (argc < 3)
@@ -31,6 +31,24 @@ int main(int argc, char **argv)
 	}
 
 	memoryAlgorithm = atoi(argv[1]);
+
+	//select the proper memory scheduler based on input.
+	switch (memoryAlgorithm)
+	{
+	case 1:
+		memScheduler = new FirstFitMemoryScheduler();
+		break;
+	case 2:
+		memScheduler = new WorstFitMemoryScheduler();
+		break;
+	case 3:
+		memScheduler = new BestFitMemoryScheduler();
+		break;
+		//default case is FirstFit
+	default:
+		memScheduler = new FirstFitMemoryScheduler();
+	}
+
 	inputFile = argv[2];
 
 	ifstream infile(inputFile);
@@ -54,7 +72,7 @@ int main(int argc, char **argv)
 	}
 
 	cout << adminScheduler.queueSize() << " jobs loaded." << endl;
-	
+
 	cout << "Running main program loopi." << endl;
 
 	while (adminScheduler.queueSize() > 0)
@@ -62,26 +80,26 @@ int main(int argc, char **argv)
 		int clockTime = cpu->getCurrentClock();
 
 		vector<Job> readyForWaiting = adminScheduler.checkJobsForAdmission(
-				JobList::getJobs(),
-				clockTime
-				);
+			JobList::getJobs(),
+			clockTime
+			);
 
 		cout << "Clock Time: " << cpu->getCurrentClock() << " ";
 
 
-		for(int i = 0; i < readyForWaiting.size(); i++)
+		for (int i = 0; i < readyForWaiting.size(); i++)
 		{
 			Job job = readyForWaiting[i];
 
 			cout << "Process: " << job.getProcessId() << " arrived";
-			memScheduler.FirstFit(job.getMappedProcessId(), job.getDataSize());
+			memScheduler->scheduleJob(job.getMappedProcessId(), job.getDataSize());
 		}
 
 		cpu->incrementClock();
 
 		cout << endl;
 
-		stats.MemMap(memScheduler.getMemory());
+		stats.MemMap(memScheduler->getMemory());
 	}
 
 	stats.ProcessStates(JobList::getJobs());

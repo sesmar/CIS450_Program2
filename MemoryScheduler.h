@@ -9,20 +9,34 @@ using namespace std;
 
 class MemoryScheduler
 {
-	private:
-
-		vector<char> _memory;   //vector <char> memory (256,'_');     <<must be intialized to size 256 with '_' characters
+	protected:
+		vector<char> _memory;
 
 	public:
 		MemoryScheduler();
-		//function declarations
-		void FirstFit(char ProcessID, int memNeeded);
-		void WorstFit(char ProcessID, int memNeeded);
-		void BestFit(char ProcessID, int memNeeded);
-		void ReleaseMemory(char ProcessID);
+
+		virtual bool scheduleJob(char processId, int memNeeded) = 0;
+
+		void releaseMemory(char processId);
 		vector<char> getMemory();
 };
 
+class FirstFitMemoryScheduler : public MemoryScheduler
+{
+public:
+	virtual bool scheduleJob(char processId, int memNeeded);
+};
 
+class WorstFitMemoryScheduler : public MemoryScheduler
+{
+public:
+	virtual bool scheduleJob(char processId, int memNeeded);
+};
+
+class BestFitMemoryScheduler : public MemoryScheduler
+{
+public:
+	virtual bool scheduleJob(char processId, int memNeeded);
+};
 
 #endif /* End MEMSCHED_H */
