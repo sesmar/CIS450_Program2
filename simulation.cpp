@@ -2,7 +2,6 @@
 #include <fstream>
 #include <stdlib.h>
 #include <vector>
-#include <conio.h>
 #include "Job.h"
 #include "Stats.h"
 #include "AdmissionScheduler.h"
@@ -87,6 +86,6 @@ int main(int argc, char **argv)
 
 	stats.ProcessStates(JobList::getJobs());
 
-	cout << "Press any key to continue!" << endl;
-	_getch();
+	cout << "Press enter to continue..." << endl;
+	cin.get();
 }
