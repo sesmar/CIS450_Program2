@@ -79,7 +79,7 @@ int main(int argc, char **argv)
 	{
 		int clockTime = cpu->getCurrentClock();
 
-		vector<Job> readyForWaiting = adminScheduler.checkJobsForAdmission(
+		vector<int> readyForWaiting = adminScheduler.checkJobsForAdmission(
 			JobList::getJobs(),
 			clockTime
 			);
@@ -89,13 +89,19 @@ int main(int argc, char **argv)
 
 		for (int i = 0; i < readyForWaiting.size(); i++)
 		{
-			Job job = readyForWaiting[i];
+			Job* job = JobList::getJobs()[readyForWaiting[i]];
 
-			cout << "Process: " << job.getProcessId() << " arrived";
-			memScheduler->scheduleJob(job.getMappedProcessId(), job.getDataSize());
+			cout << "Process: " << job->getProcessId() << " arrived";
+			
+			//if job can be loaded into memory, add to CPUScheduler ready queue.
+			if (memScheduler->scheduleJob(job->getMappedProcessId(), job->getDataSize()))
+			{
+				cpu->addToReadyQueue(readyForWaiting[i]);
+			}
 		}
 
 		cpu->incrementClock();
+		cpu->scheduleJob();
 
 		cout << endl;
 

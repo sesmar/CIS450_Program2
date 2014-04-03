@@ -5,15 +5,15 @@ void AdmissionScheduler::addJob(int jobIndex)
 	_jobQueue.push(jobIndex);
 }
 
-vector<Job> AdmissionScheduler::checkJobsForAdmission(vector<Job> jobList, int clockTime)
+vector<int> AdmissionScheduler::checkJobsForAdmission(vector<Job*> jobList, int clockTime)
 {
-	vector<Job> jobs;
+	vector<int> jobs;
 
-	Job job = jobList[_jobQueue.front()];
+	Job* job = jobList[_jobQueue.front()];
 
-	while (_jobQueue.size() > 0 && job.getArrivalTime() == clockTime)
+	while (_jobQueue.size() > 0 && job->getArrivalTime() == clockTime)
 	{
-		jobs.push_back(job);
+		jobs.push_back(_jobQueue.front());
 		_jobQueue.pop();
 
 		if (_jobQueue.size() > 0)

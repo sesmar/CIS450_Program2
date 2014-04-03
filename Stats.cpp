@@ -79,7 +79,7 @@ void Stats::PercentHoles(vector<char> memory)
 }
 
 
-void Stats::ProcessStates(vector<Job> Jobs)
+void Stats::ProcessStates(vector<Job*> Jobs)
 {
 	cout<<"Job#     |Current | Running | Ready | Waiting | DataSize | Arrival | Complete"<<endl;
 	cout<<"         | State  |         |       |         |          |  Time   |   Time  "<<endl;
@@ -88,14 +88,14 @@ void Stats::ProcessStates(vector<Job> Jobs)
 	//print information for each process
 	for(int i=0; i<Jobs.size(); i++)
 	{
-		cout << "pid" << setw(5) << Jobs[i].getProcessId() << " |"
-			<< setw(7) << Jobs[i].getCurrentState()<<" |"
-			<< setw(8) << Jobs[i].getRunningTime() << " |"
-			<< setw(6) << Jobs[i].getReadyTime() << " |"
-			<< setw(8) << Jobs[i].getWaitingTime() << " |"
-			<< setw(9) << Jobs[i].getDataSize() << " |"
-			<< setw(8) << Jobs[i].getArrivalTime() << " |"
-			<< setw(9) << Jobs[i].getCompletionTime()<<endl;
+		cout << "pid" << setw(5) << Jobs[i]->getProcessId() << " |"
+			<< setw(7) << Jobs[i]->getCurrentState() << " |"
+			<< setw(8) << Jobs[i]->getRunningTime() << " |"
+			<< setw(6) << Jobs[i]->getReadyTime() << " |"
+			<< setw(8) << Jobs[i]->getWaitingTime() << " |"
+			<< setw(9) << Jobs[i]->getDataSize() << " |"
+			<< setw(8) << Jobs[i]->getArrivalTime() << " |"
+			<< setw(9) << Jobs[i]->getCompletionTime() << endl;
 	}
 
 	cout<<"=========+========+=========+=======+=========+==========+=========+========="<<endl;

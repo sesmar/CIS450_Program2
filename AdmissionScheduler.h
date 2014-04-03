@@ -14,7 +14,7 @@ class AdmissionScheduler
 
 	public:
 		void addJob(int jobIndex);
-		vector<Job> checkJobsForAdmission(vector<Job> jobList, int clockTime);
+		vector<int> checkJobsForAdmission(vector<Job*> jobList, int clockTime);
 		int queueSize();
 };
 
