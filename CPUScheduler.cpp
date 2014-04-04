@@ -44,6 +44,7 @@ void CPUScheduler::scheduleJob()
 			if (job->getServiceTime() == job->getRunningTime())
 			{
 				job->setCurrentState("Done");
+				_completed.push(_running);
 				_running = -1;
 				job->setCompletionTime(_clock);
 			}
@@ -95,4 +96,17 @@ void CPUScheduler::incrementReady()
 		_readyQueue.push(jobIndex);
 		temp.pop();
 	}
+}
+
+int CPUScheduler::lastCompleted()
+{
+	int jobIndex = -1;
+
+	if (_completed.size() > 0)
+	{
+		jobIndex = _completed.front();
+		_completed.pop();
+	}
+
+	return jobIndex;
 }

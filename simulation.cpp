@@ -2,6 +2,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <vector>
+#include <queue>
 #include "Job.h"
 #include "Stats.h"
 #include "AdmissionScheduler.h"
@@ -57,10 +58,8 @@ int main(int argc, char **argv)
 	int arrivalTime;
 	int serviceTime;
 	int dataSize;
-
-	cout << "Loading jobs from: " << inputFile << endl;
-
 	int jobIndex = 0;
+	queue<int> readyForWaiting;
 
 	while (infile >> pId >> arrivalTime >> serviceTime >> dataSize)
 	{
@@ -71,46 +70,47 @@ int main(int argc, char **argv)
 		jobIndex++;
 	}
 
-	cout << adminScheduler.queueSize() << " jobs loaded." << endl;
-
-	cout << "Running main program loopi." << endl;
-
 	while (adminScheduler.queueSize() > 0 || cpu->queueSize() > 0)
 	{
 		int clockTime = cpu->getCurrentClock();
 
-		vector<int> readyForWaiting = adminScheduler.checkJobsForAdmission(
-			JobList::getJobs(),
-			clockTime
-			);
-
-		cout << "Clock Time: " << cpu->getCurrentClock() << " ";
-
-
-		for (int i = 0; i < readyForWaiting.size(); i++)
+		if (readyForWaiting.size() == 0)
 		{
-			Job* job = JobList::getJobs()[readyForWaiting[i]];
+			readyForWaiting = adminScheduler.checkJobsForAdmission(
+				JobList::getJobs(),
+				clockTime
+				);
+		}
 
-			cout << "Process: " << job->getProcessId() << " arrived";
-			
+		if (readyForWaiting.size() > 0)
+		{
+			Job* job = JobList::getJobs()[readyForWaiting.front()];
+
 			//if job can be loaded into memory, add to CPUScheduler ready queue.
 			if (memScheduler->scheduleJob(job->getMappedProcessId(), job->getDataSize()))
 			{
-				cpu->addToReadyQueue(readyForWaiting[i]);
+				cpu->addToReadyQueue(readyForWaiting.front());
+				readyForWaiting.pop();
 			}
 		}
 
-		cpu->incrementClock();
 		cpu->scheduleJob();
+		adminScheduler.incrementWaiting(readyForWaiting);
 
-		cout << endl;
+		int lastCompleted = cpu->lastCompleted();
+
+		if (lastCompleted >= 0)
+		{
+			memScheduler->releaseMemory(JobList::getJobs()[lastCompleted]->getMappedProcessId());
+		}
+
+		cpu->incrementClock();
 
 		stats.MemMap(memScheduler->getMemory());
 		stats.PercentHoles(memScheduler->getMemory());
 	}
 
 	stats.ProcessStates(JobList::getJobs());
-
 
 	cout << "Press enter to continue..." << endl;
 	cin.get();

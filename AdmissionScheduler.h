@@ -1,6 +1,7 @@
 #include <queue>
 #include <vector>
 #include "Job.h"
+#include "JobList.h"
 
 using namespace std;
 
@@ -14,8 +15,10 @@ class AdmissionScheduler
 
 	public:
 		void addJob(int jobIndex);
-		vector<int> checkJobsForAdmission(vector<Job*> jobList, int clockTime);
+		queue<int> checkJobsForAdmission(vector<Job*> jobList, int clockTime);
 		int queueSize();
+		void incrementWaiting(queue<int> awaitingMemory);
+
 };
 
 #endif /* ADMISSIONSCHEDULER_H */

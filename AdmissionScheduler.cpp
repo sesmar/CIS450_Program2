@@ -5,24 +5,68 @@ void AdmissionScheduler::addJob(int jobIndex)
 	_jobQueue.push(jobIndex);
 }
 
-vector<int> AdmissionScheduler::checkJobsForAdmission(vector<Job*> jobList, int clockTime)
+queue<int> AdmissionScheduler::checkJobsForAdmission(vector<Job*> jobList, int clockTime)
 {
-	vector<int> jobs;
+	queue<int> jobs;
 
-	Job* job = jobList[_jobQueue.front()];
-
-	while (_jobQueue.size() > 0 && job->getArrivalTime() == clockTime)
+	if (_jobQueue.size())
 	{
-		jobs.push_back(_jobQueue.front());
-		_jobQueue.pop();
+		Job* job = jobList[_jobQueue.front()];
 
-		if (_jobQueue.size() > 0)
+		while (_jobQueue.size() > 0 && job->getArrivalTime() == clockTime)
 		{
-			job = jobList[_jobQueue.front()];
+			jobs.push(_jobQueue.front());
+			_jobQueue.pop();
+
+			if (_jobQueue.size() > 0)
+			{
+				job = jobList[_jobQueue.front()];
+			}
 		}
 	}
-	
+
 	return jobs;
+}
+
+void AdmissionScheduler::incrementWaiting(queue<int> awaitingMemory)
+{
+	queue<int> temp;
+
+	//increment wait for waiting jobs.
+	/*while (_jobQueue.size() > 0)
+	{
+		int jobIndex = _jobQueue.front();
+		temp.push(jobIndex);
+		_jobQueue.pop();
+
+		Job* job = JobList::getJobs()[jobIndex];
+		job->incrementWaitingTime();
+	}
+
+	while (temp.size() > 0)
+	{
+		int jobIndex = temp.front();
+		_jobQueue.push(jobIndex);
+		temp.pop();
+	}*/
+
+	//increment items waiting
+	while (awaitingMemory.size() > 0)
+	{
+		int jobIndex = awaitingMemory.front();
+		temp.push(jobIndex);
+		awaitingMemory.pop();
+
+		Job* job = JobList::getJobs()[jobIndex];
+		job->incrementWaitingTime();
+	}
+
+	while (temp.size() > 0)
+	{
+		int jobIndex = temp.front();
+		awaitingMemory.push(jobIndex);
+		temp.pop();
+	}
 }
 
 int AdmissionScheduler::queueSize()

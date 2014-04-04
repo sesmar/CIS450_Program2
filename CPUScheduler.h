@@ -10,6 +10,7 @@ class CPUScheduler
 	private:
 		int _clock;
 		queue<int> _readyQueue;
+		queue<int> _completed;
 		int _running = -1;
 		int _quantum = 1;
 		bool isTimeup();
@@ -23,6 +24,7 @@ class CPUScheduler
 
 		void scheduleJob();
 		int queueSize();
+		int lastCompleted();
 };
 
 #endif /*CPUSCHEDULER*/
