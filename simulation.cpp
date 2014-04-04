@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 
 	cout << "Running main program loopi." << endl;
 
-	while (adminScheduler.queueSize() > 0)
+	while (adminScheduler.queueSize() > 0 || cpu->queueSize() > 0)
 	{
 		int clockTime = cpu->getCurrentClock();
 
@@ -106,9 +106,12 @@ int main(int argc, char **argv)
 		cout << endl;
 
 		stats.MemMap(memScheduler->getMemory());
+		
+		stats.PercentHoles(memScheduler->getMemory());
 	}
 
 	stats.ProcessStates(JobList::getJobs());
+
 
 	cout << "Press enter to continue..." << endl;
 	cin.get();

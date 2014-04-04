@@ -41,6 +41,7 @@ class Job
 		void incrementRunningTime();
 		void incrementWaitingTime();
 
+		void setCompletionTime(int cpu_time);
 		void setCurrentState(const char *state);
 };
 

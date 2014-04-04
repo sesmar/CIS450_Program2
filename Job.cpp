@@ -79,6 +79,11 @@ void Job::incrementRunningTime() { _running++; }
 
 void Job::incrementWaitingTime() { _waiting++; }
 
+void Job::setCompletionTime(int cpu_time)
+{
+	_completionTime = cpu_time;
+}
+
 void Job::setCurrentState(const char *state)
 {
 	_currentState = new string(state);

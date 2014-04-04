@@ -22,6 +22,7 @@ class CPUScheduler
 		void addToReadyQueue(int jobIndex);
 
 		void scheduleJob();
+		int queueSize();
 };
 
 #endif /*CPUSCHEDULER*/

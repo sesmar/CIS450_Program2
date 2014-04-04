@@ -4,7 +4,23 @@ int CPUScheduler::getCurrentClock() { return _clock; }
 
 void CPUScheduler::incrementClock() { _clock++; }
 
-void CPUScheduler::addToReadyQueue(int jobIndex) { _readyQueue.push(jobIndex); }
+void CPUScheduler::addToReadyQueue(int jobIndex) 
+{
+	JobList::getJobs()[jobIndex]->setCurrentState("Ready");
+   	_readyQueue.push(jobIndex); 
+}
+
+int CPUScheduler::queueSize()
+{
+	int offset = 0;
+
+	if (_running >= 0)
+	{
+		offset++;
+	}
+
+	return _readyQueue.size() + offset;
+}
 
 bool CPUScheduler::isTimeup()
 {
@@ -28,6 +44,8 @@ void CPUScheduler::scheduleJob()
 			if (job->getServiceTime() == job->getRunningTime())
 			{
 				job->setCurrentState("Done");
+				_running = -1;
+				job->setCompletionTime(_clock);
 			}
 			else
 			{
