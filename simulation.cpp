@@ -106,7 +106,6 @@ int main(int argc, char **argv)
 		cout << endl;
 
 		stats.MemMap(memScheduler->getMemory());
-		
 		stats.PercentHoles(memScheduler->getMemory());
 	}
 

@@ -2,6 +2,7 @@
 *~
 *.swp
 simulation
+simulator
 Debug/*
 CIS450_Program2/Debug/*
 *.sdf
