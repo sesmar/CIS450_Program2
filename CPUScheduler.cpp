@@ -41,19 +41,8 @@ void CPUScheduler::scheduleJob()
 		if (_running >= 0)
 		{
 			Job* job = JobList::getJobs()[_running];
-			job->incrementRunningTime();
 
-			if (job->getServiceTime() == job->getRunningTime())
-			{
-				job->setCurrentState("Done");
-				_completed.push(_running);
-				_running = -1;
-				job->setCompletionTime(_clock);
-			}
-			else
-			{
-				job->setCurrentState("Ready");
-			}
+			job->setCurrentState("Ready");
 		}
 
 		if (_readyQueue.size() > 0 || _next > -1)
@@ -76,6 +65,15 @@ void CPUScheduler::scheduleJob()
 
 			Job* job = JobList::getJobs()[_running];
 			job->setCurrentState("Running");
+			job->incrementRunningTime();
+
+			if (job->getServiceTime() == job->getRunningTime())
+			{
+				job->setCurrentState("Done");
+				_completed.push(_running);
+				_running = -1;
+				job->setCompletionTime(_clock);
+			}
 		}
 		else
 		{

@@ -28,7 +28,7 @@ queue<int> AdmissionScheduler::checkJobsForAdmission(vector<Job*> jobList, int c
 	return jobs;
 }
 
-void AdmissionScheduler::incrementWaiting(queue<int> awaitingMemory, int clockTime)
+void AdmissionScheduler::incrementWaiting(queue<int> awaitingMemory)
 {
 	queue<int> temp;
 
@@ -41,7 +41,6 @@ void AdmissionScheduler::incrementWaiting(queue<int> awaitingMemory, int clockTi
 
 		Job* job = JobList::getJobs()[jobIndex];
 
-		if (clockTime > job->getArrivalTime())
 		job->incrementWaitingTime();
 	}
 

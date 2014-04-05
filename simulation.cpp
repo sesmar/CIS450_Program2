@@ -97,8 +97,11 @@ int main(int argc, char **argv)
 				stats.MemMap(memScheduler->getMemory());
 				stats.PercentHoles(memScheduler->getMemory());
 			}
+			{
+				job->setCurrentState("Waiting");
+			}
 			
-			adminScheduler.incrementWaiting(readyForWaiting, clockTime);
+			adminScheduler.incrementWaiting(readyForWaiting);
 		}
 
 		cpu->scheduleJob();
