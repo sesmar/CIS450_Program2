@@ -113,7 +113,7 @@ void logHolePercent(int percentHole, vector<int> &_percentHoleData)
 	return;
 }
 
-int getAvgHolePercent(vector<int> _percentHoleData)
+int Stats::getAvgHolePercent(vector<int> _percentHoleData)
 {
 	int _avgHolePercent=0;
 
@@ -128,16 +128,16 @@ int getAvgHolePercent(vector<int> _percentHoleData)
 }
 
 
-int getAvgWaitTime(vector<Job> Jobs)
+int Stats::getAvgWaitTime(vector<Job*> Jobs)
 {
-	int _avgWaitTime=0;
+	float _avgWaitTime=0;
 
 	for(int i=0; i<Jobs.size(); i++)
 	{
-		_avgWaitTime+=Jobs[i].getWaitingTime();    //sum all wait times
+		_avgWaitTime+=(float)Jobs[i]->getWaitingTime();    //sum all wait times
 	}
 
-	_avgWaitTime/=Jobs.size();            //divide by total to get the average
+	_avgWaitTime/=(float)Jobs.size();            //divide by total to get the average
 
 	return _avgWaitTime;
 }

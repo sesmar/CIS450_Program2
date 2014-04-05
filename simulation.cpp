@@ -36,14 +36,14 @@ int main(int argc, char **argv)
 	//select the proper memory scheduler based on input.
 	switch (memoryAlgorithm)
 	{
-	case 1:
+	case 0:
 		memScheduler = new FirstFitMemoryScheduler();
+		break;
+	case 1:
+		memScheduler = new BestFitMemoryScheduler();
 		break;
 	case 2:
 		memScheduler = new WorstFitMemoryScheduler();
-		break;
-	case 3:
-		memScheduler = new BestFitMemoryScheduler();
 		break;
 		//default case is FirstFit
 	default:
@@ -111,8 +111,8 @@ int main(int argc, char **argv)
 		if (lastCompleted >= 0)
 		{
 			memScheduler->releaseMemory(JobList::getJobs()[lastCompleted]->getMappedProcessId());
-			stats.MemMap(memScheduler->getMemory());
-			stats.PercentHoles(memScheduler->getMemory());
+
+			stats.OutputMem(memScheduler->getMemory());
 			cout << endl << endl;
 		}
 
@@ -129,6 +129,11 @@ int main(int argc, char **argv)
 
 	cout << "The Process States at Time " << cpu->getCurrentClock() << endl << endl;
 	stats.ProcessStates(JobList::getJobs(), cpu->getCurrentClock());
+
+	cout << "Total simulation time units: " << cpu->getCurrentClock() << endl;
+	cout << "Total number of jobs: " << JobList::getJobs().size() << endl;
+	cout << "Average hole percent: " << endl;
+	cout << "Average waiting time: " << stats.getAvgWaitTime(JobList::getJobs()) << endl << endl;
 
 	cout << "Press enter to continue..." << endl;
 	cin.get();

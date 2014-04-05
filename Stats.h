@@ -22,7 +22,7 @@ class Stats
 
 			int logHolePercent(int percentHole, vector<int> &_percentHoleData);   //called after every percent hole calculation to store the hole percentages        
 			int getAvgHolePercent(vector<int> _percentHoleData);    //call at the end of the main program to compute average for every process logged
-			int getAvgWaitTime(vector<Job> Jobs);                   //call at the end of the main program to compute average for every process logged
+			int getAvgWaitTime(vector<Job*> Jobs);                   //call at the end of the main program to compute average for every process logged
 
 };
 
