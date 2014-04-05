@@ -2,6 +2,7 @@
 
 void AdmissionScheduler::addJob(int jobIndex)
 {
+	//Add the index of the given job to the queue.
 	_jobQueue.push(jobIndex);
 }
 
@@ -9,10 +10,13 @@ queue<int> AdmissionScheduler::checkJobsForAdmission(vector<Job*> jobList, int c
 {
 	queue<int> jobs;
 
+	//for each job in the queue
 	if (_jobQueue.size())
 	{
 		Job* job = jobList[_jobQueue.front()];
 
+		// if the jobs arrival time is less than or equal to the current clock time
+		// return for admission into memory
 		while (_jobQueue.size() > 0 && job->getArrivalTime() <= clockTime)
 		{
 			jobs.push(_jobQueue.front());

@@ -62,6 +62,7 @@ int main(int argc, char **argv)
 	queue<int> readyForWaiting;
 	queue<int> readyTemp;
 
+	//Load the contents of the data file.
 	while (infile >> pId >> arrivalTime >> serviceTime >> dataSize)
 	{
 		Job job(pId, arrivalTime, serviceTime, dataSize);
@@ -70,10 +71,12 @@ int main(int argc, char **argv)
 		jobIndex++;
 	}
 
+	//While there are jobs to be processed.
 	while (adminScheduler.queueSize() > 0 || cpu->queueSize() > 0)
 	{
 		int clockTime = cpu->getCurrentClock();
 
+		//Gets jobs ready for admission.
 		readyTemp = adminScheduler.checkJobsForAdmission(
 			JobList::getJobs(),
 			clockTime
@@ -85,6 +88,7 @@ int main(int argc, char **argv)
 			readyTemp.pop();
 		}
 
+		//There are jobs waiting for memory, try and schedule them.
 		if (readyForWaiting.size() > 0)
 		{
 			Job* job = JobList::getJobs()[readyForWaiting.front()];
@@ -92,20 +96,25 @@ int main(int argc, char **argv)
 			//if job can be loaded into memory, add to CPUScheduler ready queue.
 			if (memScheduler->scheduleJob(job->getMappedProcessId(), job->getDataSize()))
 			{
+				//Add jobs to CPU ready queue
 				cpu->addToReadyQueue(readyForWaiting.front());
 				readyForWaiting.pop();
-				stats.MemMap(memScheduler->getMemory());
-				stats.PercentHoles(memScheduler->getMemory());
+				//output memory map.
+				stats.OutputMem(memScheduler->getMemory());
 			}
 			{
+				//otherwise, sets jobs state to waiting.
 				job->setCurrentState("Waiting");
 			}
 			
+			//increment items waiting for memory
 			adminScheduler.incrementWaiting(readyForWaiting);
 		}
 
+		//schedule the next job.
 		cpu->scheduleJob();
 
+		//If a job was completed this time around, release the memory it was using
 		int lastCompleted = cpu->lastCompleted();
 
 		if (lastCompleted >= 0)
@@ -116,6 +125,7 @@ int main(int argc, char **argv)
 			cout << endl << endl;
 		}
 
+		//Output Process tables every 10 ticks.
 		if (clockTime % 10 == 0)
 		{
 			cout << "The Process States at Time " << clockTime << endl << endl;
@@ -124,13 +134,14 @@ int main(int argc, char **argv)
 			cout << endl;
 		}
 
+		//increment the clock.
 		cpu->incrementClock();
 	}
 
 	cout << "The Process States at Time " << cpu->getCurrentClock() << endl << endl;
 	stats.ProcessStates(JobList::getJobs(), cpu->getCurrentClock());
-
-	cout << "Total simulation time units: " << cpu->getCurrentClock() << endl;
+	cout << endl << endl;
+	cout << "Total simulated time units: " << cpu->getCurrentClock() << endl;
 	cout << "Total number of jobs: " << JobList::getJobs().size() << endl;
 	cout << "Average hole percent: " << endl;
 	cout << "Average waiting time: " << stats.getAvgWaitTime(JobList::getJobs()) << endl << endl;

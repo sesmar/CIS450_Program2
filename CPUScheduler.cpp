@@ -6,7 +6,10 @@ void CPUScheduler::incrementClock() { _clock++; }
 
 void CPUScheduler::addToReadyQueue(int jobIndex) 
 {
+	//Set the jobs status to "READY"
 	JobList::getJobs()[jobIndex]->setCurrentState("Ready");
+	//Set the _next to jobIndex, this will simulate bump to
+	//to the front of the queue.
 	_next = jobIndex;
 }
 
@@ -24,6 +27,8 @@ int CPUScheduler::queueSize()
 
 bool CPUScheduler::isTimeup()
 {
+	//right now, since time quantum is one
+	//always return true.
 	bool returnValue = true;
 
 	if (_running ==  -1)
@@ -38,6 +43,7 @@ void CPUScheduler::scheduleJob()
 {
 	if (isTimeup())
 	{
+		//If there is a job running marks its state to ready.
 		if (_running >= 0)
 		{
 			Job* job = JobList::getJobs()[_running];
