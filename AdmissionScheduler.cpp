@@ -13,7 +13,7 @@ queue<int> AdmissionScheduler::checkJobsForAdmission(vector<Job*> jobList, int c
 	{
 		Job* job = jobList[_jobQueue.front()];
 
-		while (_jobQueue.size() > 0 && job->getArrivalTime() == clockTime)
+		while (_jobQueue.size() > 0 && job->getArrivalTime() <= clockTime)
 		{
 			jobs.push(_jobQueue.front());
 			_jobQueue.pop();
@@ -28,27 +28,9 @@ queue<int> AdmissionScheduler::checkJobsForAdmission(vector<Job*> jobList, int c
 	return jobs;
 }
 
-void AdmissionScheduler::incrementWaiting(queue<int> awaitingMemory)
+void AdmissionScheduler::incrementWaiting(queue<int> awaitingMemory, int clockTime)
 {
 	queue<int> temp;
-
-	//increment wait for waiting jobs.
-	/*while (_jobQueue.size() > 0)
-	{
-		int jobIndex = _jobQueue.front();
-		temp.push(jobIndex);
-		_jobQueue.pop();
-
-		Job* job = JobList::getJobs()[jobIndex];
-		job->incrementWaitingTime();
-	}
-
-	while (temp.size() > 0)
-	{
-		int jobIndex = temp.front();
-		_jobQueue.push(jobIndex);
-		temp.pop();
-	}*/
 
 	//increment items waiting
 	while (awaitingMemory.size() > 0)
@@ -58,6 +40,8 @@ void AdmissionScheduler::incrementWaiting(queue<int> awaitingMemory)
 		awaitingMemory.pop();
 
 		Job* job = JobList::getJobs()[jobIndex];
+
+		if (clockTime > job->getArrivalTime())
 		job->incrementWaitingTime();
 	}
 

@@ -60,10 +60,10 @@ int main(int argc, char **argv)
 	int dataSize;
 	int jobIndex = 0;
 	queue<int> readyForWaiting;
+	queue<int> readyTemp;
 
 	while (infile >> pId >> arrivalTime >> serviceTime >> dataSize)
 	{
-
 		Job job(pId, arrivalTime, serviceTime, dataSize);
 		JobList::addJob(job);
 		adminScheduler.addJob(jobIndex);
@@ -74,12 +74,15 @@ int main(int argc, char **argv)
 	{
 		int clockTime = cpu->getCurrentClock();
 
-		if (readyForWaiting.size() == 0)
+		readyTemp = adminScheduler.checkJobsForAdmission(
+			JobList::getJobs(),
+			clockTime
+			);
+
+		while (readyTemp.size() > 0)
 		{
-			readyForWaiting = adminScheduler.checkJobsForAdmission(
-				JobList::getJobs(),
-				clockTime
-				);
+			readyForWaiting.push(readyTemp.front());
+			readyTemp.pop();
 		}
 
 		if (readyForWaiting.size() > 0)
@@ -91,26 +94,38 @@ int main(int argc, char **argv)
 			{
 				cpu->addToReadyQueue(readyForWaiting.front());
 				readyForWaiting.pop();
+				stats.MemMap(memScheduler->getMemory());
+				stats.PercentHoles(memScheduler->getMemory());
 			}
+			
+			adminScheduler.incrementWaiting(readyForWaiting, clockTime);
 		}
 
 		cpu->scheduleJob();
-		adminScheduler.incrementWaiting(readyForWaiting);
 
 		int lastCompleted = cpu->lastCompleted();
 
 		if (lastCompleted >= 0)
 		{
 			memScheduler->releaseMemory(JobList::getJobs()[lastCompleted]->getMappedProcessId());
+			stats.MemMap(memScheduler->getMemory());
+			stats.PercentHoles(memScheduler->getMemory());
+			cout << endl << endl;
+		}
+
+		if (clockTime % 10 == 0)
+		{
+			cout << "The Process States at Time " << clockTime << endl << endl;
+
+			stats.ProcessStates(JobList::getJobs(), clockTime);
+			cout << endl;
 		}
 
 		cpu->incrementClock();
-
-		stats.MemMap(memScheduler->getMemory());
-		stats.PercentHoles(memScheduler->getMemory());
 	}
 
-	stats.ProcessStates(JobList::getJobs());
+	cout << "The Process States at Time " << cpu->getCurrentClock() << endl << endl;
+	stats.ProcessStates(JobList::getJobs(), cpu->getCurrentClock());
 
 	cout << "Press enter to continue..." << endl;
 	cin.get();

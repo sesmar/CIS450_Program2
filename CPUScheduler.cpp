@@ -7,7 +7,7 @@ void CPUScheduler::incrementClock() { _clock++; }
 void CPUScheduler::addToReadyQueue(int jobIndex) 
 {
 	JobList::getJobs()[jobIndex]->setCurrentState("Ready");
-   	_readyQueue.push(jobIndex); 
+	_next = jobIndex;
 }
 
 int CPUScheduler::queueSize()
@@ -24,12 +24,14 @@ int CPUScheduler::queueSize()
 
 bool CPUScheduler::isTimeup()
 {
+	bool returnValue = true;
+
 	if (_running ==  -1)
 	{
-		return true;
+		returnValue = true;
 	}
 
-	return true;
+	return returnValue;
 }
 
 void CPUScheduler::scheduleJob()
@@ -54,25 +56,33 @@ void CPUScheduler::scheduleJob()
 			}
 		}
 
-		incrementReady();
-
-		if (_readyQueue.size() > 0)
+		if (_readyQueue.size() > 0 || _next > -1)
 		{
 			if (_running > -1)
 			{
 				_readyQueue.push(_running);
 			}
 
-			_running = _readyQueue.front();
+			if (_next > -1)
+			{
+				_running = _next;
+				_next = -1;
+			}
+			else
+			{
+				_running = _readyQueue.front();
+				_readyQueue.pop();
+			}
+
 			Job* job = JobList::getJobs()[_running];
 			job->setCurrentState("Running");
-
-			_readyQueue.pop();
 		}
 		else
 		{
 			_running = -1;
 		}
+
+		incrementReady();
 	}
 }
 

@@ -12,6 +12,7 @@ class CPUScheduler
 		queue<int> _readyQueue;
 		queue<int> _completed;
 		int _running = -1;
+		int _next = -1;
 		int _quantum = 1;
 		bool isTimeup();
 		void incrementReady();
