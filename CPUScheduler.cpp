@@ -43,21 +43,17 @@ void CPUScheduler::scheduleJob()
 {
 	if (isTimeup())
 	{
-		//If there is a job running marks its state to ready.
-		if (_running >= 0)
-		{
-			Job* job = JobList::getJobs()[_running];
-
-			job->setCurrentState("Ready");
-		}
-
 		if (_readyQueue.size() > 0 || _next > -1)
 		{
+			//If there is a job running marks its state to ready.
 			if (_running > -1)
 			{
+				Job* job = JobList::getJobs()[_running];
+				job->setCurrentState("Ready");
 				_readyQueue.push(_running);
 			}
 
+			//has a job been scheduled to jump to front of queue.
 			if (_next > -1)
 			{
 				_running = _next;
@@ -65,14 +61,17 @@ void CPUScheduler::scheduleJob()
 			}
 			else
 			{
+				//Push first item in queue to running.
 				_running = _readyQueue.front();
 				_readyQueue.pop();
 			}
 
+			//Increment running state
 			Job* job = JobList::getJobs()[_running];
 			job->setCurrentState("Running");
 			job->incrementRunningTime();
 
+			//Check if job is completed
 			if (job->getServiceTime() == job->getRunningTime())
 			{
 				job->setCurrentState("Done");
@@ -94,6 +93,8 @@ void CPUScheduler::incrementReady()
 {
 	queue<int> temp;
 
+	//loop through each job in the ready 
+	//queue and increment ready time.
 	while (_readyQueue.size() > 0)
 	{
 		int jobIndex = _readyQueue.front();

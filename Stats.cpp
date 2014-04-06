@@ -72,7 +72,7 @@ void Stats::PercentHoles(vector<char> memory)
 
 	holePercent = (holeCount / MEMORY_SIZE) * 100;      //divide number of holes by total number of memory units (256)
 	
-	cout << setprecision(2) << "Percent Holes: " << holePercent << "%" << endl;	
+	cout << setprecision(4) << "Percent Holes: " << holePercent << "%" << endl;	
 //	printf("Percent holes: %.2f\n", holePercent);      //output the percentage holes in memory
 
 	return;

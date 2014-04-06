@@ -29,3 +29,105 @@ CPU Scheduler				//Christohper Sims
 Stats								//Michael Ingrody
 Output/Display			//Michael Ingrody/Christohper Sims
 Main Program Loop		//Christopher Sims
+
+Executable name: simulator
+Parameter 1: Memory Scheduler Algorithm
+	0: First Fit
+	1: Best Fit
+	2: Worst Fit
+Parameter 2: input file
+
+Example:
+simulator 0 datafile1.txt
+simulator 1 datafile2.txt
+
+Sample Output (datafile1, first fit):
+000 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa________________________________
+064 ________________________________________________________________
+128 ________________________________________________________________
+192 ________________________________________________________________
+Percent Holes: 87.5%
+The Process States at Time 0
+
+Job#     |Current | Running | Ready | Waiting | DataSize | Arrival | Complete
+         | State  |         |       |         |          |  Time   |   Time  
+=========+========+=========+=======+=========+==========+=========+=========
+pid    0 |Running |       1 |     0 |       0 |       32 |       0 |        0
+=========+========+=========+=======+=========+==========+=========+=========
+
+...
+
+000 ________________________________________________________________
+064 ________________________________________________________________
+128 ________________________________________________________________
+192 hhhhhhhhhhhhhhhhhhhhhhhhhhhhhh__________________________________
+Percent Holes: 88.28%
+
+
+The Process States at Time 167
+
+Job#     |Current | Running | Ready | Waiting | DataSize | Arrival | Complete
+         | State  |         |       |         |          |  Time   |   Time  
+=========+========+=========+=======+=========+==========+=========+=========
+pid    0 |   Done |      30 |   135 |       0 |       32 |       0 |      164
+pid    1 |   Done |       7 |    26 |       0 |       32 |       1 |       33
+pid    2 |   Done |      25 |   128 |       0 |       64 |       4 |      156
+pid    3 |   Done |       4 |    15 |       0 |       16 |       7 |       25
+pid    4 |   Done |      20 |   107 |       0 |       16 |       8 |      134
+pid    5 |   Done |      25 |   126 |       0 |       32 |       9 |      159
+pid    6 |   Done |      20 |   104 |       0 |       15 |      30 |      153
+pid    7 |Running |      24 |   111 |       0 |       30 |      31 |        0
+pid    8 |   Done |      11 |    61 |       0 |       62 |      32 |      103
+=========+========+=========+=======+=========+==========+=========+=========
+
+Total simulated time units: 167
+Total number of jobs: 9
+Average hole percent: 
+Average waiting time: 0
+
+Sample Output (datafile2, first fit):
+000 aaaaaaaaaaaaaaaa________________________________________________
+064 ________________________________________________________________
+128 ________________________________________________________________
+192 ________________________________________________________________
+Percent Holes: 93.75%
+The Process States at Time 0
+
+Job#     |Current | Running | Ready | Waiting | DataSize | Arrival | Complete
+         | State  |         |       |         |          |  Time   |   Time  
+=========+========+=========+=======+=========+==========+=========+=========
+pid    0 |Running |       1 |     0 |       0 |       16 |       0 |        0
+=========+========+=========+=======+=========+==========+=========+=========
+
+...
+
+000 ________________________________________________________________
+064 ________________________________________________________________
+128 ________________________________________________________________
+192 ________________________________________________________________
+Percent Holes: 100%
+
+
+The Process States at Time 173
+
+Job#     |Current | Running | Ready | Waiting | DataSize | Arrival | Complete
+         | State  |         |       |         |          |  Time   |   Time  
+=========+========+=========+=======+=========+==========+=========+=========
+pid    0 |   Done |      30 |   143 |       0 |       16 |       0 |      172
+pid    1 |   Done |       5 |    14 |       0 |       16 |       1 |       19
+pid    2 |   Done |      25 |   128 |       0 |       64 |       2 |      154
+pid    3 |   Done |       2 |     4 |       0 |       32 |       3 |        8
+pid    4 |   Done |      20 |   101 |       0 |       64 |       4 |      124
+pid    5 |   Done |      25 |   126 |       0 |       28 |      20 |      170
+pid    6 |   Done |      20 |   110 |       0 |       16 |      40 |      169
+pid    7 |   Done |      15 |    92 |       0 |       30 |      42 |      148
+pid    8 |   Done |      11 |    70 |       0 |       18 |      45 |      125
+pid    9 |   Done |      20 |   106 |       0 |       10 |      46 |      171
+=========+========+=========+=======+=========+==========+=========+=========
+
+Total simulated time units: 173
+Total number of jobs: 10
+Average hole percent: 
+Average waiting time: 0
+
+Press enter to continue...

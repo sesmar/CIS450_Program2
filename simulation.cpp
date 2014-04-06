@@ -141,7 +141,7 @@ int main(int argc, char **argv)
 
 	cout << "The Process States at Time " << cpu->getCurrentClock() << endl << endl;
 	stats.ProcessStates(JobList::getJobs(), cpu->getCurrentClock());
-	cout << endl << endl;
+	cout << endl;
 	cout << "Total simulated time units: " << cpu->getCurrentClock() << endl;
 	cout << "Total number of jobs: " << JobList::getJobs().size() << endl;
 	cout << "Average hole percent: " << endl;
