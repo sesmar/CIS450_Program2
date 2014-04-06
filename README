@@ -5,6 +5,27 @@ Michael Ingrody
 Christopher Sims
 
 Source Files:
-simulation.cpp		//Main program file.
-Job.h				//Header file for the job class
-Job.cpp				//Implementation for job class
+simulation.cpp					//Main program file.
+AdmissionScheduler.h		//Header file for the admission scheduler class
+CPUScheduler.h					//Header file for the CPU Scheduler class
+Job.h										//Header file for the job class
+JobList.h								//Header file for JobList class
+MemoryScheduler.h				//Header file for the MemoryScheduler classes
+Stats.h									//Header file for the Stats clas
+AdmissionScheduler.cpp	//Implementation for the Admission Scheduler class
+CPUScheduler.cpp				//Implementation for the CPUSCheduler class
+Job.cpp									//Implementation for job class
+JobList.cpp							//Implementation for the JobList class
+MemoryScheduler.cpp			//Implementation for the MemortScheduler classes
+Stats.cpp								//Implementation for the Stats class
+Makefile
+
+Work Assignments:
+Makefile						//Christopher Sims
+Job/JobList					//Christopher Sims
+Admission Scheduler //Christopher Sims
+Memory Schedulers		//Michael Ingrody
+CPU Scheduler				//Christohper Sims
+Stats								//Michael Ingrody
+Output/Display			//Michael Ingrody/Christohper Sims
+Main Program Loop		//Christopher Sims

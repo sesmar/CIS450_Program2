@@ -113,7 +113,7 @@ void logHolePercent(int percentHole, vector<int> &_percentHoleData)
 	return;
 }
 
-int Stats::getAvgHolePercent(vector<int> _percentHoleData)
+float Stats::getAvgHolePercent(vector<int> _percentHoleData)
 {
 	int _avgHolePercent=0;
 
@@ -128,7 +128,7 @@ int Stats::getAvgHolePercent(vector<int> _percentHoleData)
 }
 
 
-int Stats::getAvgWaitTime(vector<Job*> Jobs)
+float Stats::getAvgWaitTime(vector<Job*> Jobs)
 {
 	float _avgWaitTime=0;
 

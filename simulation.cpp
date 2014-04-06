@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <stdlib.h>
 #include <vector>
@@ -144,7 +145,7 @@ int main(int argc, char **argv)
 	cout << "Total simulated time units: " << cpu->getCurrentClock() << endl;
 	cout << "Total number of jobs: " << JobList::getJobs().size() << endl;
 	cout << "Average hole percent: " << endl;
-	cout << "Average waiting time: " << stats.getAvgWaitTime(JobList::getJobs()) << endl << endl;
+	cout << "Average waiting time: " << setprecision(4) << stats.getAvgWaitTime(JobList::getJobs()) << endl << endl;
 
 	cout << "Press enter to continue..." << endl;
 	cin.get();
