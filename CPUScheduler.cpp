@@ -43,7 +43,7 @@ void CPUScheduler::scheduleJob()
 {
 	if (isTimeup())
 	{
-		if (_readyQueue.size() > 0 || _next > -1)
+		if (_readyQueue.size() > 0 || _next > -1 || _running > -1)
 		{
 			//If there is a job running marks its state to ready.
 			if (_running > -1)
