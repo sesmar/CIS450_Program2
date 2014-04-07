@@ -63,6 +63,8 @@ int main(int argc, char **argv)
 	queue<int> readyForWaiting;
 	queue<int> readyTemp;
 
+	float percentTemp=0;
+
 	//Load the contents of the data file.
 	while (infile >> pId >> arrivalTime >> serviceTime >> dataSize)
 	{
@@ -144,7 +146,8 @@ int main(int argc, char **argv)
 	cout << endl;
 	cout << "Total simulated time units: " << cpu->getCurrentClock() << endl;
 	cout << "Total number of jobs: " << JobList::getJobs().size() << endl;
-	cout << "Average hole percent: " << endl;
+	cout << "Average hole percent: " ;
+		stats.getAvgHolePercent();
 	cout << "Average waiting time: " << setprecision(4) << stats.getAvgWaitTime(JobList::getJobs()) << endl << endl;
 
 	cout << "Press enter to continue..." << endl;

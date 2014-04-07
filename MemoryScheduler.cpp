@@ -114,13 +114,19 @@ bool WorstFitMemoryScheduler::scheduleJob(char processId, int memNeeded)
 		}
 	}
 
-	//store data into the largest hole
-	for (int j = currentPos; j<currentPos + memNeeded; j++)
+	if(currentHoleCount>=memNeeded)
 	{
-		_memory[j] = processId;
+		//store data into the largest hole
+		for (int j = currentPos; j<currentPos + memNeeded; j++)
+		{
+			_memory[j] = processId;
+		}
+		return true;
 	}
-
-	return true;
+	else
+	{
+		return false;
+	}
 }
 
 bool BestFitMemoryScheduler::scheduleJob(char processId, int memNeeded)
@@ -167,11 +173,17 @@ bool BestFitMemoryScheduler::scheduleJob(char processId, int memNeeded)
 		}
 	}
 
-	//store data into the largest hole
-	for (int j = currentPos; j<currentPos + memNeeded; j++)
-	{
-		_memory[j] = processId;
-	}
-
-	return true;
+		if(currentHoleCount>=memNeeded)
+		{
+			//store data into the largest hole
+			for (int j = currentPos; j<currentPos + memNeeded; j++)
+			{
+				_memory[j] = processId;
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 }

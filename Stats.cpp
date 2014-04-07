@@ -1,5 +1,6 @@
 #include <iomanip>
 #include "Stats.h"
+#include <math.h>
 
 
 void Stats::OutputMem(vector<char> memory)
@@ -71,13 +72,20 @@ void Stats::PercentHoles(vector<char> memory)
 	}
 
 	holePercent = (holeCount / MEMORY_SIZE) * 100;      //divide number of holes by total number of memory units (256)
-	
-	cout << setprecision(4) << "Percent Holes: " << holePercent << "%" << endl;	
-//	printf("Percent holes: %.2f\n", holePercent);      //output the percentage holes in memory
 
+	logHolePercent(holePercent);
+
+	cout << setprecision(4) << "Percent Holes: " << holePercent << "%" << endl;	
+	
 	return;
 }
 
+void Stats::logHolePercent(float percentHole)
+{
+	_percentHoleData.push_back(percentHole);   //add data for percent hole calculation
+
+	return;
+}
 
 void Stats::ProcessStates(vector<Job*> Jobs, int clockTime)
 {
@@ -106,16 +114,11 @@ void Stats::ProcessStates(vector<Job*> Jobs, int clockTime)
 	return;
 }
 
-void logHolePercent(int percentHole, vector<int> &_percentHoleData)
-{
-	_percentHoleData.push_back(percentHole);   //add data for percent hole calculation
 
-	return;
-}
 
-float Stats::getAvgHolePercent(vector<int> _percentHoleData)
+void Stats::getAvgHolePercent()
 {
-	int _avgHolePercent=0;
+	float _avgHolePercent=0;
 
 	for(int i=0; i<_percentHoleData.size(); i++)
 	{
@@ -124,7 +127,9 @@ float Stats::getAvgHolePercent(vector<int> _percentHoleData)
 
 	_avgHolePercent/=_percentHoleData.size();       //divide by total to get the average
 
-	return _avgHolePercent;
+	cout << setprecision(4) << _avgHolePercent << "%" << endl;
+
+	return;
 }
 
 

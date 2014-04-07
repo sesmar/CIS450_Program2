@@ -11,7 +11,8 @@ class Stats
 {
 	private:
 
-		vector<int> _percentHoleData;       //used to store each hole calculation so an average can be computed at the end
+			vector<float> _percentHoleData;       //used to store each hole calculation so an average can be computed at the end
+	
 
 	public:
 			Stats() { }
@@ -20,8 +21,8 @@ class Stats
 			void PercentHoles(vector<char> memory);    //prints percentage of holes in memory map
 			void ProcessStates(vector<Job*> Jobs, int clockTime);      //prints out information for each process
 
-			int logHolePercent(int percentHole, vector<int> &_percentHoleData);   //called after every percent hole calculation to store the hole percentages        
-			float getAvgHolePercent(vector<int> _percentHoleData);    //call at the end of the main program to compute average for every process logged
+			void logHolePercent(float percentHole);   //called after every percent hole calculation to store the hole percentages        
+			void getAvgHolePercent();    //call at the end of the main program to compute average for every process logged
 			float getAvgWaitTime(vector<Job*> Jobs);                   //call at the end of the main program to compute average for every process logged
 
 };
